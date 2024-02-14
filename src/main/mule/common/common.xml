@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="error-response-subFlow" doc:id="2786affd-ddb8-42be-930e-1361611d982c" >
+		<ee:transform doc:name="error Request" doc:id="6af22776-d7b3-4332-b29d-cda4005f88f3">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "msg": "successful operation",
+  //"code": 400,
+  "code": vars.code,
+  "success": true,
+  "eventId": attributes.headers.'x-cms-transactionid',
+  "error": {
+    "type": vars.errorType,
+    "title": vars.title,
+    "details": vars.details
+     }
+}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                    </ee:variables>
+                </ee:transform>
+	</sub-flow>
+	<sub-flow name="initialize-request-data-subFlow" doc:id="33b3f32a-b151-4b9a-9454-e77551845b0b" >
+		<ee:transform doc:name="Transform Message" doc:id="6f56698e-f66a-4368-a26b-21f7ce577daf">
+			<ee:message>
+			</ee:message>
+			<ee:variables>
+				<ee:set-variable variableName="queryParams"><![CDATA[attributes.queryParams default ""]]></ee:set-variable>
+				<ee:set-variable variableName="requestPayload"><![CDATA[payload default ""]]></ee:set-variable>
+				<ee:set-variable variableName="headers"><![CDATA[attributes.headers default ""]]></ee:set-variable>
+				<ee:set-variable variableName="uriParams"><![CDATA[attributes.uriParams default ""]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+	</sub-flow>
+</mule>

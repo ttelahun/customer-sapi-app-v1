@@ -1,0 +1,25 @@
+error:
+  bad_request:
+    code: "400"
+    errorType: "BAD_REQUEST"
+    title: "Invalid Request"
+    details: "The input contains invalid data, amount should be integer"
+  unauthorized:
+    code: "401"
+    errorType: "UNAUTHORIZED"
+    title: "Unauthorized"
+    details: "This endpoint requires all requests to be authenticated"
+  resource_not_found:
+    code: "404"
+    errorType: "NOT_FOUND"
+    title: "Resource not found"
+    details: "The URI requested is invalid or the resource requested does not exists"
+  server_error:
+    code: "500"
+    errorType: "SERVER_ERROR"
+    title: "Internal server error"
+    details: "The server encountered an unexpected condition which prevented it from fulfilling the request"
+    
+    
+  
+    

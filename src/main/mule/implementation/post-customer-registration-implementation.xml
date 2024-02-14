@@ -8,7 +8,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
 	
 	<flow name="post-customer-registration-implementation-Flow" doc:id="c21956cb-ea46-43f7-8872-d1da2f4e29d2" >
-	<ee:transform doc:name="Transform Message" doc:id="751730e3-a98a-4352-bdb6-e0790a54a837" >
+	<ee:transform doc:name="Create SFDC Request Payload for registration object" doc:id="751730e3-a98a-4352-bdb6-e0790a54a837" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json
@@ -27,16 +27,18 @@ output application/json
   }]]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<salesforce:create doc:name="Create" doc:id="21b9fc80-c4c2-4430-8fdf-abace520bb6d" config-ref="Salesforce_Config" type="registration__c"/>
-		<ee:transform>
+		<logger level="INFO" doc:name="Request Logger For SFDC Call" doc:id="eb784f76-b33a-44f2-b43a-788e26f44fca" />
+		<salesforce:create doc:name="Create call to SFDC Registration Object to insert Registration Data" doc:id="21b9fc80-c4c2-4430-8fdf-abace520bb6d" config-ref="Salesforce_Config" type="registration__c"/>
+		<logger level="INFO" doc:name="Response Logger for SFDC Call" doc:id="7fa7f431-36ef-4ab0-8832-cecb65344bc4" />
+		<ee:transform doc:name="registration SAPI Response">
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 {
   registrationResponse: {
-    eventInstanceId: "dsfhdbfhsbdfhjsb3784t2wfsd",
-    status: "success"
+    eventInstanceId: vars.headers."x-cms-transactionid",
+    status: if(payload.successful==true)"success" else "fail"
   }
 }]]></ee:set-payload>
             </ee:message>

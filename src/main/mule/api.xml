@@ -31,7 +31,11 @@
         </error-handler>
     </flow>
     <flow name="post:\customers\registration:application\json:api-config">
-        <flow-ref doc:name="post-customer-registration-implementation-Flow" doc:id="7bd38b5a-10f3-4f48-920c-6efbf7be20cc" name="post-customer-registration-implementation-Flow"/>
+		<flow-ref doc:name="Call to Initialize-request-data-subFlow" doc:id="89f794e4-6d73-4715-a377-0b7ad541c00c" name="initialize-request-data-subFlow" />
+		<logger level="INFO" doc:name="Start logger for Customer Registration" doc:id="b40189c4-716a-47d0-9b0a-af8e9e642cf5" message='#[%dw 2.0&#10;output application/json indent =false&#10;---&#10;{&#10;TimeStamp: now(),&#10;transactionId: vars.headers."x-cms-transactionid",&#10;AppName: app.name,&#10;FlowName: flow.name,&#10;BuisnessProcessName: "Customer Registration",&#10;Category: "Customer",&#10;OriginatingApplication: "Process API",&#10;DestinationApplication: "Salesforce",&#10;CustomerId: "NA",&#10;txnState: "START"&#10;&#10;&#10;&#10;}]'/>
+		<flow-ref doc:name="Call to post-customer-registration-implementation-Flow" doc:id="7bd38b5a-10f3-4f48-920c-6efbf7be20cc" name="post-customer-registration-implementation-Flow"/>
+		<logger level="INFO" doc:name="End  logger for Customer Registration" doc:id="c70e73d0-7eda-49db-8fe9-85bc2efd8f1e" message='#[%dw 2.0&#10;output application/json indent =false&#10;---&#10;{&#10;TimeStamp: now(),&#10;transactionId: vars.headers."x-cms-transactionid",&#10;AppName: app.name,&#10;FlowName: flow.name,&#10;BuisnessProcessName: "Customer Registration",&#10;Category: "Customer",&#10;OriginatingApplication: "Process API",&#10;DestinationApplication: "Salesforce",&#10;CustomerId: "NA",&#10;txnState: "END"&#10;&#10;&#10;&#10;}]'/>
+		<error-handler ref="app-global-errorError_Handler" />
 		
 		
     </flow>

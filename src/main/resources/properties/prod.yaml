@@ -5,3 +5,7 @@ http:
   requester:
     host: "localhost"
     port: "8081" 
+sfdc:
+  username: "jilasaeed38@na.com"
+  password: "Zak911205274@"
+  securityToken: "sz5iG4H8wgfAF5oE9QBoR8N3j"
