@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+<mule xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
 	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
 	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd 
 http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
@@ -17,4 +19,11 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 		<salesforce:basic-connection username="${sfdc.username}" password="${sfdc.password}" securityToken="${sfdc.securityToken}" />
 	</salesforce:sfdc-config>
 	<configuration-properties doc:name="Configuration properties" doc:id="31a76116-e39c-4a3b-9619-ffd73599008a" file="properties/constraints/error-details.yaml" />
+    <!-- <api-gateway:autodiscovery apiId="${instanceID}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="390df137-d488-45c5-85ec-5483c1d71708" flowRef="api-main" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="9ae4b6f1-f47c-4f08-9aa1-cc8f387a2d81" file="properties/secure/${env}.yaml" key="${secureKey}" >
+		<secure-properties:encrypt algorithm="Blowfish" />
+	</secure-properties:config> -->
+    <http:request-config name="HTTP_Request_configuration-SMS" doc:name="HTTP Request configuration" doc:id="6baf9da1-3cfa-4081-a74b-8ec57caab304" >
+		<http:request-connection host="${http.requester.sms.host}" port="${http.requester.sms.port}" protocol="HTTPS"/>
+	</http:request-config>
 </mule>

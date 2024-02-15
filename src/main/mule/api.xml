@@ -36,7 +36,30 @@
 		<flow-ref doc:name="Call to post-customer-registration-implementation-Flow" doc:id="7bd38b5a-10f3-4f48-920c-6efbf7be20cc" name="post-customer-registration-implementation-Flow"/>
 		<logger level="INFO" doc:name="End  logger for Customer Registration" doc:id="c70e73d0-7eda-49db-8fe9-85bc2efd8f1e" message='#[%dw 2.0&#10;output application/json indent =false&#10;---&#10;{&#10;TimeStamp: now(),&#10;transactionId: vars.headers."x-cms-transactionid",&#10;AppName: app.name,&#10;FlowName: flow.name,&#10;BuisnessProcessName: "Customer Registration",&#10;Category: "Customer",&#10;OriginatingApplication: "Process API",&#10;DestinationApplication: "Salesforce",&#10;CustomerId: "NA",&#10;txnState: "END"&#10;&#10;&#10;&#10;}]'/>
 		<error-handler ref="app-global-errorError_Handler" />
+	</flow>
+	<flow name="post:\customerState:application\json:api-config" doc:id="aa74655f-f42f-43b4-9855-bc87a0d0e079">
+		<flow-ref doc:name="Flow Reference to call initialize-request-data-subFlow" doc:id="a16fc97b-928b-4edd-a649-26fdbba3f02c" name="initialize-request-data-subFlow"/>
+		<logger level="INFO" doc:name="Start Logger For CustomerState  API" doc:id="08c7813e-9b4a-4c8b-b630-230b957eb279" message="#[%dw 2.0 &#10;output application/json indent = false &#10;--- &#10;{ 	&#10;    TimeStamp: now(), 	&#10;    transactionId: vars.headers.'x-cms-transactionId', 	&#10;    AppName: app.name, 	&#10;    FlowName: flow.name, 	&#10;    BusinessProcessName:  &quot;Customer State&quot;, 	&#10;    Category:  &quot;Customer&quot;, 	&#10;    OriginatingApplication:  &quot;Process API&quot;, 	&#10;    DesinationApplication:  &quot;Salesforce&quot;, 	&#10;    CustomerId: &quot;NA&quot;, 	&#10;    txnState:  &quot;START &quot; &#10;}]"/>
+		<flow-ref doc:name="Flow Reference to call customerstate Implementation" doc:id="28ab0a55-2ee3-43e5-b898-fd39deee9150" name="post-customer-state-implementation-Flow"/>
+		<logger level="INFO" doc:name="END Logger For CustomerState API" doc:id="b9f69bc5-327f-4aa8-a12c-5adf5539415d" message="#[%dw 2.0&#10;output application/json indent = false &#10;--- &#10;{ 	&#10;    TimeStamp: now(), 	&#10;    transactionId: vars.headers.'x-cms-transactionId', 	&#10;    AppName: app.name, 	&#10;    FlowName: flow.name, 	&#10;    BusinessProcessName:  &quot;Customer State&quot;, 	&#10;    Category:  &quot;Customer&quot;, 	&#10;    OriginatingApplication:  &quot;Process API&quot;, 	&#10;    DesinationApplication:  &quot;Salesforce&quot;, 	&#10;    CustomerId: &quot;NA&quot;, 	&#10;    txnState:  &quot;END&quot; &#10;}]"/>
+		<error-handler ref="app-global-errorError_Handler" />
 		
+    </flow>
+    <flow name="post:\verification:application\json:api-config" doc:id="ba489da7-08ab-4da7-a8ae-ffd8b5eb4d4c">
+		<flow-ref doc:name="Flow Reference To Call Initialize Request Data" doc:id="f76d047f-2a1d-4de5-81af-dd1ce4373343" name="initialize-request-data-subFlow" />
+		<logger level="INFO" doc:name="Start Logger For Customer verification API" doc:id="ec1db3e8-1285-4d98-bf01-514e8de99f88" message="#[%dw 2.0 &#10;output application/json indent = false &#10;--- &#10;{ 	&#10;    TimeStamp: now(), 	&#10;    transactionId: vars.headers.'x-cms-transactionId', 	&#10;    AppName: app.name, 	&#10;    FlowName: flow.name, 	&#10;    BusinessProcessName:  &quot;Verification&quot;, 	&#10;    Category:  &quot;Customer&quot;, 	&#10;    OriginatingApplication:  &quot;Process API&quot;, 	&#10;    DesinationApplication:  &quot;3rd Party SMS API&quot;, 	&#10;    CustomerId: &quot;NA&quot;, 	&#10;    txnState:  &quot;START &quot; &#10;}]"/>
+		<ee:transform doc:name="Transform Message" doc:id="a2e42485-1c3b-4a21-bdd9-b2856d2b8461" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="mobileNumber" ><![CDATA[payload.verificationRequest.mobile]]></ee:set-variable>
+				<ee:set-variable variableName="country_code" ><![CDATA[payload.verificationRequest.countryCode replace ("+") with ("")]]></ee:set-variable>
+				<ee:set-variable variableName="verificationURL" ><![CDATA[payload.verificationRequest.messageContent]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="Flow Reference to call Customer verification Implementation" doc:id="8da4cde7-747a-43a3-be35-83c418309877" name="post-verification-implementation-Flow"/>
+		<logger level="INFO" doc:name="END Logger For Customer verification API" doc:id="f10fbf09-241c-4516-a291-b391bc790fbf" message="#[%dw 2.0&#10;output application/json indent = false &#10;--- &#10;{ 	&#10;    TimeStamp: now(), 	&#10;    transactionId: vars.headers.'x-cms-transactionId', 	&#10;    AppName: app.name, 	&#10;    FlowName: flow.name, 	&#10;    BusinessProcessName:  &quot;Verification&quot;, 	&#10;    Category:  &quot;Customer&quot;, 	&#10;    OriginatingApplication:  &quot;Process API&quot;, 	&#10;    DesinationApplication:  &quot;3rd Party SMS API&quot;, 	&#10;    CustomerId: &quot;NA&quot;, &#10;    txnState:  &quot;END&quot; &#10;}]"/>
+		<error-handler ref="app-global-errorError_Handler" />
 		
     </flow>
 </mule>

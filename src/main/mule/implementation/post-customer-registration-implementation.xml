@@ -38,7 +38,7 @@ output application/json
 {
   registrationResponse: {
     eventInstanceId: vars.headers."x-cms-transactionid",
-    status: if(payload.successful==true)"success" else "fail"
+    status: if(payload.successful==true)"success" else "failure"
   }
 }]]></ee:set-payload>
             </ee:message>
