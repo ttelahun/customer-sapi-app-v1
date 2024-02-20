@@ -12,9 +12,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
 
 	<flow name="post-verification-implementation-Flow"
-		doc:id="79a4c8f8-be73-4578-8315-ad89d16dfef3">
-		<logger level="INFO" doc:name="Request Logger For SMS API Call" doc:id="8064b1ac-fd9b-4960-8194-f0fd307104c5" message="#[%dw 2.0&#10;output application/json indent = false  &#10;---  &#10;{  	&#10;    TimeStamp: now(), 	&#10;    transactionId: vars.headers.'x-cms-transactionId', 	&#10;    AppName: app.name, 	&#10;    FlowName: flow.name, 	&#10;    BusinessProcessName:  &quot;Verification&quot;, 	&#10;    Category:  &quot;Customer&quot;, 	&#10;    OriginatingApplication:  &quot;Process API&quot;, 	&#10;    DesinationApplication:  &quot;3rd Party SMS API&quot;, 	&#10;    CustomerId: &quot;NA&quot;, 	&#10;    txnState:  &quot;SFDC Request&quot; &#10;}]"/>
-	<http:request method="GET" doc:name="Request" doc:id="c791fa53-0ef1-407c-a767-4946cf841b52" config-ref="HTTP_Request_configuration-SMS" path="${http.requester.sms.path}">
+		doc:id="c8ab05df-0b88-4690-8144-5b83e707d17e">
+		<logger level="INFO" doc:name="Request Logger For SMS API Call" doc:id="e8c0931a-dcc9-4864-82b0-d2ae3a1407f6" message="#[%dw 2.0&#10;output application/json indent = false  &#10;---  &#10;{  	&#10;    TimeStamp: now(), 	&#10;    transactionId: vars.headers.'x-cms-transactionId', 	&#10;    AppName: app.name, 	&#10;    FlowName: flow.name, 	&#10;    BusinessProcessName:  &quot;Verification&quot;, 	&#10;    Category:  &quot;Customer&quot;, 	&#10;    OriginatingApplication:  &quot;Process API&quot;, 	&#10;    DesinationApplication:  &quot;3rd Party SMS API&quot;, 	&#10;    CustomerId: &quot;NA&quot;, 	&#10;    txnState:  &quot;SFDC Request&quot; &#10;}]"/>
+	<http:request method="GET" doc:name="API request to 3rd party API" doc:id="7f09e0a4-21b0-46e2-a2c5-98309490eb33" config-ref="HTTP_Request_configuration-SMS" path="${http.requester.sms.path}">
 			<http:query-params ><![CDATA[#[output application/java
 ---
 {
@@ -27,9 +27,9 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 	
 }]]]></http:query-params>
 		</http:request>
-		<logger level="INFO" doc:name="Response Logger Fro SMS API Call" doc:id="d6df8e40-f813-4ef7-9111-bb6804f97100" message="#[%dw 2.0&#10;output application/json indent = false  &#10;---  &#10;{  	&#10;    TimeStamp: now(), 	&#10;    transactionId: vars.headers.'x-cms-transactionId', 	&#10;    AppName: app.name, 	&#10;    FlowName: flow.name, 	&#10;    BusinessProcessName:  &quot;Verification&quot;, 	&#10;    Category:  &quot;Customer&quot;, 	&#10;    OriginatingApplication:  &quot;Process API&quot;, 	&#10;    DesinationApplication:  &quot;3rd Party SMS API&quot;, 	&#10;    CustomerId: &quot;NA&quot;, 	&#10;    txnState:  &quot;SFDC Response&quot; &#10;}]"/>
+		<logger level="INFO" doc:name="Response Logger Fro SMS API Call" doc:id="8ceedd82-b5ee-4eb6-b9b2-86dce31f2b9e" message="#[%dw 2.0&#10;output application/json indent = false  &#10;---  &#10;{  	&#10;    TimeStamp: now(), 	&#10;    transactionId: vars.headers.'x-cms-transactionId', 	&#10;    AppName: app.name, 	&#10;    FlowName: flow.name, 	&#10;    BusinessProcessName:  &quot;Verification&quot;, 	&#10;    Category:  &quot;Customer&quot;, 	&#10;    OriginatingApplication:  &quot;Process API&quot;, 	&#10;    DesinationApplication:  &quot;3rd Party SMS API&quot;, 	&#10;    CustomerId: &quot;NA&quot;, 	&#10;    txnState:  &quot;SFDC Response&quot; &#10;}]"/>
 		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="Transform Message to Create Registration SAPI Response">
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:name="Transform Message to Create verification SAPI Response">
             <ee:message>
                 <ee:set-payload><![CDATA[%dw 2.0
 output application/json

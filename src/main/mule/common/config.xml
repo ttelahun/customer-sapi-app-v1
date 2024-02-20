@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
+<mule xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway"
 	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
-	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
-	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd 
 http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
 	 <http:listener-config name="api-httpListenerConfig">
         <http:listener-connection host="${http.listener.host}" port="${http.listener.port}" />
     </http:listener-config>
@@ -19,11 +20,17 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 		<salesforce:basic-connection username="${sfdc.username}" password="${sfdc.password}" securityToken="${sfdc.securityToken}" />
 	</salesforce:sfdc-config>
 	<configuration-properties doc:name="Configuration properties" doc:id="31a76116-e39c-4a3b-9619-ffd73599008a" file="properties/constraints/error-details.yaml" />
-    <!-- <api-gateway:autodiscovery apiId="${instanceID}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="390df137-d488-45c5-85ec-5483c1d71708" flowRef="api-main" />
-	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="9ae4b6f1-f47c-4f08-9aa1-cc8f387a2d81" file="properties/secure/${env}.yaml" key="${secureKey}" >
-		<secure-properties:encrypt algorithm="Blowfish" />
-	</secure-properties:config> -->
-    <http:request-config name="HTTP_Request_configuration-SMS" doc:name="HTTP Request configuration" doc:id="6baf9da1-3cfa-4081-a74b-8ec57caab304" >
+	<api-gateway:autodiscovery apiId="${instanceID}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="867fc05b-34e1-421f-bbe5-cc10fc88f49b" flowRef="api-main" />
+    <http:request-config name="HTTP_Request_configuration-SMS" doc:name="HTTP Request configuration" doc:id="dc9e9498-24e9-44e6-8ffa-3f29a0603806" >
 		<http:request-connection host="${http.requester.sms.host}" port="${http.requester.sms.port}" protocol="HTTPS"/>
 	</http:request-config>
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="03322284-3b45-4a0f-abb0-6779a605fa85" file="properties/secure/${env}.yaml" key="${secureKey}" >
+		<secure-properties:encrypt algorithm="Blowfish" />
+	</secure-properties:config>
+	<!-- <secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="fa75fc78-538e-4157-9beb-cd025991b64c" file="properties/secure/${env}.yaml" key="${secureKey}" >
+		<secure-properties:encrypt algorithm="Blowfish" />
+	</secure-properties:config> -->
+	
+	
+
 </mule>

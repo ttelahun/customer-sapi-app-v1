@@ -12,10 +12,9 @@ output application/json
 ---
 {
   "msg": "successful operation",
-  //"code": 400,
   "code": vars.code,
   "success": true,
-  "eventId": attributes.headers.'x-cms-transactionid',
+  "eventId": vars.headers.'x-cms-transactionid',
   "error": {
     "type": vars.errorType,
     "title": vars.title,
